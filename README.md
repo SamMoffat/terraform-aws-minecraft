@@ -13,14 +13,14 @@ Example from latest version, using default values for everything:
 
 ```
 module "minecraft" {
-  source = "git@github.com:darrelldavis/terraform-aws-minecraft.git?ref=master"
+  source = "git@github.com:darkestknight96/terraform-aws-minecraft.git?ref=master"
 }
 ```
 This will create all needed resources, including an S3 bucket to persist the game state. If you subsequently use `terraform destroy` the S3 bucket will not be destroyed as it will not be empty. You can choose to delete the bucket yourself with `aws s3 rb s3://bucket-name --force` or keep the game for future play. If the latter, add the bucket as `bucket_name` in your module call, for example:
 
 ```
 module "minecraft" {
-  source = "git@github.com:darrelldavis/terraform-aws-minecraft.git?ref=master"
+  source = "git@github.com:darkestknight96/terraform-aws-minecraft.git?ref=master"
   bucket_name = "games-minecraft-1234567890"
 }
 ```
@@ -32,7 +32,7 @@ Example using original (legacy) version:
 
 ```
 module "minecraft" {
-  source = "git@github.com:darrelldavis/terraform-aws-minecraft.git?ref=v1.0"
+  source = "git@github.com:darkestknight96/terraform-aws-minecraft.git?ref=v1.0"
 }
 ```
 

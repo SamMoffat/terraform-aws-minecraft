@@ -1,19 +1,24 @@
 // This module creates a single EC2 instance for running a Minecraft server
-
+provider "aws" {
+  region = "eu-central-1"
+}
 // Default network
 data "aws_vpc" "default" {
   default = true
 }
 
-data "aws_subnet_ids" "default" {
-  vpc_id = local.vpc_id
+data "aws_subnets" "default" {
+  filter {
+    name   = "vpc-id"
+    values = [var.vpc_id]
+  }
 }
 
 data "aws_caller_identity" "aws" {}
 
 locals {
   vpc_id    = length(var.vpc_id) > 0 ? var.vpc_id : data.aws_vpc.default.id
-  subnet_id = length(var.subnet_id) > 0 ? var.subnet_id : sort(data.aws_subnet_ids.default.ids)[0]
+  subnet_id = length(var.subnet_id) > 0 ? var.subnet_id : sort(data.aws_subnets.default.ids)[0]
   tf_tags = {
     Terraform = true,
     By        = data.aws_caller_identity.aws.arn
@@ -168,7 +173,7 @@ data "template_file" "user_data" {
 
 // Security group for our instance - allows SSH and minecraft 
 module "ec2_security_group" {
-  source = "git@github.com:terraform-aws-modules/terraform-aws-security-group.git?ref=master"
+  source = "git::https://github.com/terraform-aws-modules/terraform-aws-security-group"
 
   name        = "${var.name}-ec2"
   description = "Allow SSH and TCP ${var.mc_port}"
@@ -211,7 +216,7 @@ locals {
 
 // EC2 instance for the server - tune instance_type to fit your performance and budget requirements
 module "ec2_minecraft" {
-  source = "git::https://github.com/terraform-aws-modules/terraform-aws-ec2-instance.git?ref=master"
+  source = "git::https://github.com/terraform-aws-modules/terraform-aws-ec2-instance"
   name   = "${var.name}-public"
 
   # instance
@@ -223,7 +228,7 @@ module "ec2_minecraft" {
 
   # network
   subnet_id                   = local.subnet_id
-  vpc_security_group_ids      = [ module.ec2_security_group.this_security_group_id ]
+  vpc_security_group_ids      = [ module.ec2_security_group.security_group_id ]
   associate_public_ip_address = var.associate_public_ip_address
 
   tags = module.label.tags

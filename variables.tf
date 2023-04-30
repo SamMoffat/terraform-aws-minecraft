@@ -7,7 +7,7 @@ variable "vpc_id" {
 variable "subnet_id" {
   description = "VPC subnet id to place the instance"
   type        = string
-  default     = ""
+  default     = "subnet-004a5789eb4f7258b"
 }
 
 variable "key_name" {
@@ -38,7 +38,7 @@ variable "bucket_object_versioning" {
 variable "name" {
   description = "Name to use for servers, tags, etc (e.g. minecraft)"
   type        = string
-  default     = "minecraft"
+  default     = "minecraft96"
 }
 
 variable "namespace" {
@@ -94,13 +94,13 @@ variable "mc_backup_freq" {
 variable "java_ms_mem" {
   description = "Java initial and minimum heap size"
   type        = string
-  default     = "2G"
+  default     = "3G"
 }
 
 variable "java_mx_mem" {
   description = "Java maximum heap size"
   type        = string
-  default     = "2G"
+  default     = "3G"
 }
 
 // Instance vars
@@ -113,7 +113,7 @@ variable "associate_public_ip_address" {
 variable "ami" {
   description = "AMI to use for the instance - will default to latest Ubuntu"
   type        = string
-  default     = ""
+  default     = "ami-0adbcf08fdd664fed"
 }
 
 // https://aws.amazon.com/ec2/instance-types/
@@ -126,6 +126,6 @@ variable "instance_type" {
 variable "allowed_cidrs" {
   description = "Allow these CIDR blocks to the server - default is the Universe"
   type        = string
-  default     = "0.0.0.0/0"
+  default     = "89.24.50.94/32"
 }
 
