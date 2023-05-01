@@ -38,7 +38,7 @@ variable "bucket_object_versioning" {
 variable "name" {
   description = "Name to use for servers, tags, etc (e.g. minecraft)"
   type        = string
-  default     = "minecraft96"
+  default     = "minecraft98"
 }
 
 variable "namespace" {
@@ -75,7 +75,8 @@ variable "mc_root" {
 variable "mc_version" {
   description = "Which version of minecraft to install"
   type        = string
-  default     = "latest"
+  #default     = "latest"
+  default     = "1.16.5"
 }
 
 variable "mc_type" {
@@ -100,7 +101,7 @@ variable "java_ms_mem" {
 variable "java_mx_mem" {
   description = "Java maximum heap size"
   type        = string
-  default     = "3G"
+  default     = "4G"
 }
 
 // Instance vars

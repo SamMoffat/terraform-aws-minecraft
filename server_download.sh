@@ -44,6 +44,9 @@ download_minecraft_server() {
 
   # version_manifest.json lists available MC versions
   $WGET -O ${mc_root}/version_manifest.json https://launchermeta.mojang.com/mc/game/version_manifest.json
+  
+  # download forge 1.16.5
+  $WGET -O ${mc_root}/forge-1.16.5-36.2.39-installer.jar https://maven.minecraftforge.net/net/minecraftforge/forge/1.16.5-36.2.39/forge-1.16.5-36.2.39-installer.jar
 
   # Find latest version number if user wants that version (the default)
   if [[ "${mc_version}" == "latest" ]]; then

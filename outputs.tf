@@ -39,8 +39,8 @@ resource "local_file" "private_key" {
 output "zzz_ec2_ssh" {
   value = length(var.key_name) > 0 ? "" : <<EOT
 
-Ubuntu: ssh -i ${path.module}/ec2-private-key.pem ubuntu@${module.ec2_minecraft.public_ip[0]}
-Amazon Linux: ssh -i ${path.module}/ec2-private-key.pem ec2-user@${module.ec2_minecraft.public_ip[0]}
+Ubuntu: ssh -i ${path.module}/ec2-private-key.pem ubuntu@${module.ec2_minecraft.public_ip}
+Amazon Linux: ssh -i ${path.module}/ec2-private-key.pem ec2-user@${module.ec2_minecraft.public_ip}
 
 EOT
 

@@ -89,7 +89,8 @@ INIT
 # Update OS and install start script
 amazon_linux_setup() {
     export SSH_USER="ec2-user"
-    /usr/bin/yum install java-17-amazon-corretto-headless yum-cron wget awscli jq -y
+   # /usr/bin/yum install java-17-amazon-corretto-headless yum-cron wget awscli jq -y
+    /usr/bin/yum install java-1.8.0 yum-cron wget awscli jq -y
     /bin/sed -i -e 's/update_cmd = default/update_cmd = security/'\
                 -e 's/apply_updates = no/apply_updates = yes/'\
                 -e 's/emit_via = stdio/emit_via = email/' /etc/yum/yum-cron.conf
@@ -131,15 +132,21 @@ download_minecraft_server() {
   # Find latest version number if user wants that version (the default)
   if [[ "${mc_version}" == "latest" ]]; then
     MC_VERS=$(jq -r '.["latest"]["'"${mc_type}"'"]' ${mc_root}/version_manifest.json)
+  else
+    MC_VERS=${mc_version}
   fi
-
+  
   # Index version_manifest.json by the version number and extract URL for the specific version manifest
   VERSIONS_URL=$(jq -r '.["versions"][] | select(.id == "'"$MC_VERS"'") | .url' ${mc_root}/version_manifest.json)
   # From specific version manifest extract the server JAR URL
   SERVER_URL=$(curl -s $VERSIONS_URL | jq -r '.downloads | .server | .url')
   # And finally download it to our local MC dir
   $WGET -O ${mc_root}/$MINECRAFT_JAR $SERVER_URL
-
+  # download forge 1.16.5
+  $WGET -O ${mc_root}/forge-1.16.5-36.2.39-installer.jar https://maven.minecraftforge.net/net/minecraftforge/forge/1.16.5-36.2.39/forge-1.16.5-36.2.39-installer.jar
+  java -jar ${mc_root}/forge-1.16.5-36.2.39-installer.jar --installServer
+  rm ${mc_root}/minecraft_server.jar 
+  cp ${mc_root}/forge-1.16.5-36.2.39.jar ${mc_root}/minecraft_server.jar
 }
 
 MINECRAFT_JAR="minecraft_server.jar"

@@ -101,7 +101,6 @@ module "s3" {
   block_public_policy     = true
   ignore_public_acls      = true
   restrict_public_buckets = true
-
   tags = module.label.tags
 }
 
@@ -188,6 +187,41 @@ module "ec2_security_group" {
       protocol    = "tcp"
       description = "Minecraft server"
       cidr_blocks = var.allowed_cidrs
+    },
+    {
+      from_port   = var.mc_port
+      to_port     = var.mc_port
+      protocol    = "tcp"
+      description = "Minecraft server"
+      cidr_blocks = "131.117.213.214/32"
+    },
+     {
+      from_port   = var.mc_port
+      to_port     = var.mc_port
+      protocol    = "tcp"
+      description = "Minecraft server"
+      cidr_blocks = "62.77.78.180/32"
+    },
+    {
+      from_port   = var.mc_port
+      to_port     = var.mc_port
+      protocol    = "tcp"
+      description = "Minecraft server"
+      cidr_blocks = "94.142.238.112/32"
+    },
+    {
+      from_port   = var.mc_port
+      to_port     = var.mc_port
+      protocol    = "tcp"
+      description = "Minecraft server"
+      cidr_blocks = "37.48.49.162/32"
+    },
+    {
+      from_port   = var.mc_port
+      to_port     = var.mc_port
+      protocol    = "tcp"
+      description = "Minecraft server"
+      cidr_blocks = "94.142.238.127/32"
     },
   ]
   egress_rules = ["all-all"]
